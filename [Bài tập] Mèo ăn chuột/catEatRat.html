@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat eat rat</title>
+</head>
+<body>
+<script>
+    let Rat = function (name, weight, speed) {
+        this.name = name;
+        this.weight = weight;
+        this.speed = speed;
+        this.status = true;
+        this.say = 'Chit chit';
+
+    }
+
+    let Cat = function (name, weight) {
+        this.name = name;
+        this.weight = weight;
+        this.speedMax = 500;
+        this.say = 'Meow Meow';
+        this.onlyOnePerCatching = true;
+        this.catchRat = function (rat) {
+            if (this.speedMax > rat.speed && this.onlyOnePerCatching && rat.status) {
+                this.onlyOnePerCatching = false;
+                document.write('catch');
+            }
+
+        }
+        this.eatRat = function (rat) {
+            if (rat.status && !this.onlyOnePerCatching) {
+                this.weight += rat.weight;
+                this.onlyOnePerCatching = true;
+                rat.weight = 0;
+                rat.status = false;
+                document.write('eat');
+            }
+        }
+    }
+
+    let Tom = new Cat('Tom', 10);
+    let Jerry = new Rat('Jerry', 5, 200);
+    let Jerryy = new Rat('Jerry', 10, 300);
+    Tom.catchRat(Jerry);
+    Tom.catchRat(Jerryy);
+</script>
+</body>
+</html>

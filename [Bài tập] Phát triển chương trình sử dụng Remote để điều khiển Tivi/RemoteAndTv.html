@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remote And TV</title>
+</head>
+<body>
+<script>
+    let TV = function (channel, volume) {
+        this.channel = channel;
+        this.volume = volume;
+        this.status = false;
+        this.turnOnTV = function () {
+            this.status = true;
+        }
+        this.turnOffTV = function () {
+            this.status = false;
+        }
+        this.switchChannel = function (channel) {
+            this.channel = channel;
+        }
+        this.controlVolume = function (amountVolumeUpOrDown) {
+            if (amountVolumeUpOrDown[0] == '+')
+                this.volume += Number(amountVolumeUpOrDown.substr(1,amountVolumeUpOrDown.length-1));
+            else
+                this.volume -= Number(amountVolumeUpOrDown.substr(1,amountVolumeUpOrDown.length-1));
+        }
+    }
+
+    let Remote = function (code, TV) {
+        this.code = code;
+        this.TV = TV;
+        this.switchChannel = function (channel) {
+            TV.switchChannel(channel);
+        }
+        this.controlVolume = function (amountVolumeUpOrDown) {
+            TV.controlVolume(amountVolumeUpOrDown);
+        }
+        this.turnOnTV = function () {
+            TV.status = true;
+        }
+        this.turnOffTV = function () {
+            TV.status = false;
+        }
+    }
+
+    let LCD = new TV('Kenh 1', 50);
+    let RemoteLCD = new Remote('1125', LCD);
+    LCD.turnOnTV();
+    LCD.switchChannel('Kenh 7');
+    RemoteLCD.switchChannel('Kenh 3');
+    LCD.controlVolume('+2');
+    RemoteLCD.turnOffTV();
+    alert(LCD.status + '-' + LCD.volume + ' ' + LCD.channel);
+</script>
+</body>
+</html>

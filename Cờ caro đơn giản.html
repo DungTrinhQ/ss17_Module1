@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Caro Game</title>
+    <style>
+        input {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Caro Game Simple</h1>
+<p>Chơi caro theo lượt mỗi người.</p>
+<p>Thắng khi 1 bên có 1 hàng (dọc, ngang, chéo) có 5 tick liên tiếp</p>
+<h2 id="turn">&nbsp</h2>
+<div id="caroTable">
+</div>
+<script>
+    let caroTable = document.getElementById('caroTable');
+    let drawTable="<table style=\"border: 1px black solid;\">";
+    let playerTurn = true;
+
+    function initTable() {
+        let i,j;
+        for (i = 0; i < 10; i++) {
+            drawTable += "<tr>";
+            for (j = 0; j < 10; j++) {
+                drawTable += "<td><input type=\'button\' onclick=\"change(\'" + i + '' + j + "\')\" id=\'" + i + "" + j + "\' value=''></td>";
+            }
+            drawTable += "</tr>";
+
+        }
+    }
+
+    function check(tick,positionCheck) {
+        let count = 0;
+        let x1 = positionCheck.substr(0, 1);
+        let y1 = positionCheck.substr(1, 1);
+        let x2 = x1;
+        let y2 = y1;
+
+        // kiểm tra hàng ngang
+        while (document.getElementById(x1 + y1).value == tick || document.getElementById(x2 + y2).value == tick) {
+            if (document.getElementById(x1 + y1).value == tick)
+                y1 = String(Number(y1) + 1);
+            if (document.getElementById(x2 + y2).value == tick)
+                y2 = String(Number(y2) - 1);
+            count++;
+            if (count == 5) {
+                alert('Yeah, you win!');
+                return;
+            }
+            if (y1 == '-1' || y1 == '10' || y2 == '-1' || y2 == '10')
+                break;
+        }
+
+
+        count = 0;
+        x1 = positionCheck.substr(0, 1);
+        y1 = positionCheck.substr(1, 1);
+        x2 = x1;
+        y2 = y1;
+
+        //kiểm tra hàng dọc
+        while (document.getElementById(x1 + y1).value == tick || document.getElementById(x2 + y2).value == tick) {
+            if (document.getElementById(x1 + y1).value == tick)
+                x1 = String(Number(x1) + 1);
+            if (document.getElementById(x2 + y2).value == tick)
+                x2 = String(Number(x2) - 1);
+            count++;
+            if (count == 5) {
+                alert('Yeah, you win!');
+                return;
+            }
+            if (x1 == '-1' || x1 == '10' || x2 == '-1' || x2 == '10')
+                break;
+        }
+
+        count = 0;
+        x1 = positionCheck.substr(0, 1);
+        y1 = positionCheck.substr(1, 1);
+        x2 = x1;
+        y2 = y1;
+
+        //kiểm tra hàng chéo
+        while (document.getElementById(x1 + y1).value == tick || document.getElementById(x2 + y2).value == tick) {
+            if (document.getElementById(x1 + y1).value == tick) {
+                y1 = String(Number(y1) + 1);
+                x1 = String(Number(x1) + 1)
+            }
+            if (document.getElementById(x2 + y2).value == tick) {
+                x2 = String(Number(x2) - 1);
+                y2 = String(Number(y2) - 1);
+            }
+            count++;
+            if (count == 5) {
+                alert('Yeah, you win!');
+                return;
+            }
+            if (x1 == '-1' || x1 == '10' || y1 == '-1' || y1 == '10' ||
+                x2 == '-1' || x2 == '10' || y2 == '-1' || y2 == '10')
+                break;
+        }
+
+        count = 0;
+        x1 = positionCheck.substr(0, 1);
+        y1 = positionCheck.substr(1, 1);
+        x2 = x1;
+        y2 = y1;
+
+        while (document.getElementById(x1 + y1).value == tick || document.getElementById(x2 + y2).value == tick) {
+            if (document.getElementById(x1 + y1).value == tick) {
+                y1 = String(Number(y1) - 1);
+                x1 = String(Number(x1) + 1)
+            }
+            if (document.getElementById(x2 + y2).value == tick) {
+                x2 = String(Number(x2) - 1);
+                y2 = String(Number(y2) + 1);
+            }
+            count++;
+            alert(count);
+            if (count == 5) {
+                alert('Yeah, you win!');
+                return;
+            }
+            if (x1 == '-1' || x1 == '10' || y1 == '-1' || y1 == '10' ||
+                x2 == '-1' || x2 == '10' || y2 == '-1' || y2 == '10')
+                break;
+        }
+    }
+
+    function change(x) {
+        if (document.getElementById(x).value == 'X' || document.getElementById(x).value == 'O')
+            return;
+        if (playerTurn) {
+            playerTurn = false;
+            document.getElementById('turn').innerText = 'Lượt người chơi 1';
+            document.getElementById(x).value = "X";
+            check('X',x);
+        }
+        else {
+            playerTurn = true;
+            document.getElementById('turn').innerText = 'Lượt người chơi 2';
+            document.getElementById(x).value = "O";
+            check('O',x);
+        }
+    }
+
+    initTable();
+    caroTable.innerHTML = drawTable;
+</script>
+</body>
+</html>
